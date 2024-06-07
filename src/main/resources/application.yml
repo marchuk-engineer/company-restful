@@ -1,1 +1,29 @@
-spring.application.name=smida-techtask
+spring:
+  application:
+    name: smida-techtask
+  ##-------------------------
+  ## Liquibase
+  ##-------------------------
+  liquibase:
+    change-log: classpath:/db/changelog/master.yaml
+    liquibase-schema: smida_schema
+  ##-------------------------
+  ## Database configuration PostgreSQL
+  ##-------------------------
+  datasource:
+    url: jdbc:postgresql://localhost:5432/smida?
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
+    hikari:
+      schema: smida_schema
+  ##-------------------------
+  ## Database configuration MongoDB
+  ##-------------------------
+  data:
+    mongodb:
+      uri: 'mongodb://localhost:27017/smida'
+      auto-index-creation: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
