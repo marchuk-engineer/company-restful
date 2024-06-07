@@ -55,14 +55,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (accessToken == null || refreshToken == null) {
             log.warn("JWT token/tokens hasn't been provided");
         }
-        // Check if refresh token is invalid and email is extracted from toekn
+        // Check if refresh token is invalid and username is extracted from token
         else if (Objects.isNull(jwtService.extractUsername(refreshToken))) {
             log.warn("Invalid JWT refresh token has been provided");
             // Redirect to the logout endpoint
             response.sendRedirect(LOGOUT_ENDPOINT);
             return;
         }
-        // Check if user is present by provided email
+        // Check if user is present by provided username
         else if (Objects.isNull(getUserDetails(jwtService.extractUsername(refreshToken)))) {
             log.warn("No user is present");
         } else {
@@ -93,10 +93,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      * @param response     The HttpServletResponse object to set cookies and headers.
      * @param refreshToken The living refresh token.
      * @param userDetails  The UserDetails object associated with the user.
-     * @param email        The user's email.
+     * @param username        The user's username.
      */
-    private void handleValidAccessToken(HttpServletResponse response, String refreshToken, UserDetails userDetails, String email) {
-        String newAccessToken = jwtService.generateAccessToken(email);
+    private void handleValidAccessToken(HttpServletResponse response, String refreshToken, UserDetails userDetails, String username) {
+        String newAccessToken = jwtService.generateAccessToken(username);
         setAuthenticationResponseData(response, newAccessToken, refreshToken, userDetails);
     }
 
@@ -105,23 +105,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      *
      * @param response    The HttpServletResponse object to set cookies and headers.
      * @param userDetails The UserDetails object associated with the user.
-     * @param email       The user's email.
+     * @param username       The user's username.
      */
-    private void handleValidRefreshToken(HttpServletResponse response, UserDetails userDetails, String email) {
-        String newAccessToken = jwtService.generateAccessToken(email);
-        String newRefreshToken = jwtService.generateRefreshToken(email);
+    private void handleValidRefreshToken(HttpServletResponse response, UserDetails userDetails, String username) {
+        String newAccessToken = jwtService.generateAccessToken(username);
+        String newRefreshToken = jwtService.generateRefreshToken(username);
         setAuthenticationResponseData(response, newAccessToken, newRefreshToken, userDetails);
     }
 
     /**
      * Extract UserDetails and if such is present, then set it on SecurityContextHolder.
      *
-     * @param email The email obtained from the token
+     * @param username The username obtained from the token
      * @return UserDetails from the database, or null if not found
      */
-    private UserDetails getUserDetails(String email) {
+    private UserDetails getUserDetails(String username) {
         try {
-            UserDetails user = userDetailsService.loadUserByUsername(email);
+            UserDetails user = userDetailsService.loadUserByUsername(username);
             setSecurityContext(user);
             this.userDetails = user;
             return user;
