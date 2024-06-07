@@ -6,8 +6,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import smida.techtask.dto.ReportDetailsDto;
-import smida.techtask.dto.ReportDto;
+import smida.techtask.controllers.dto.ReportDetailsDto;
+import smida.techtask.controllers.dto.ReportDto;
 
 import java.util.List;
 import java.util.UUID;
