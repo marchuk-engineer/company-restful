@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -20,7 +20,7 @@ public class Report {
     private UUID id;
 
     @Column(nullable = false)
-    private Timestamp reportDate;
+    private Instant reportDate;
 
     @Column(nullable = false)
     private BigDecimal totalRevenue;
