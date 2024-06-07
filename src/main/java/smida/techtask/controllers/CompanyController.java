@@ -5,11 +5,13 @@ import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import smida.techtask.dto.CompanyDto;
+import smida.techtask.controllers.dto.CompanyDto;
+import smida.techtask.services.CompanyService;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,7 +19,10 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/companies")
+// todo Finish Swagger doc
 public class CompanyController {
+
+    private final CompanyService companyService;
 
     /**
      * Retrieve all companies.
@@ -65,8 +70,8 @@ public class CompanyController {
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CompanyDto create(@RequestBody CompanyDto requestBody, HttpServletResponse response) {
-        CompanyDto responseBody = companyService.create(requestBody);
+    public CompanyDto create(@RequestBody @Valid CompanyDto requestBody, HttpServletResponse response) {
+        CompanyDto responseBody = companyService.save(requestBody);
         String resourceLocation = String.format("/companies/" + responseBody.getId());
         response.setHeader(HttpHeaders.LOCATION, resourceLocation);
         return responseBody;
@@ -86,7 +91,7 @@ public class CompanyController {
     })
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CompanyDto update(@PathVariable UUID id, @RequestBody CompanyDto requestBody) {
+    public CompanyDto update(@PathVariable UUID id, @RequestBody @Valid CompanyDto requestBody) {
         return companyService.update(id, requestBody);
     }
 
