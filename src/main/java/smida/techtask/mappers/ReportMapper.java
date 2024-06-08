@@ -3,7 +3,7 @@ package smida.techtask.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
-import smida.techtask.controllers.dto.ReportDto;
+import smida.techtask.dto.ReportDto;
 import smida.techtask.entities.Report;
 
 import java.util.List;

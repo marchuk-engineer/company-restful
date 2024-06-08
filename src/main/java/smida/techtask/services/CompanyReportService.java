@@ -1,7 +1,7 @@
 package smida.techtask.services;
 
-import smida.techtask.controllers.dto.CompanyReportsDto;
-import smida.techtask.controllers.dto.ReportDto;
+import smida.techtask.dto.CompanyReportsDto;
+import smida.techtask.dto.ReportDto;
 
 import java.util.UUID;
 

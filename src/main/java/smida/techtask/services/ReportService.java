@@ -1,6 +1,6 @@
 package smida.techtask.services;
 
-import smida.techtask.controllers.dto.ReportAndCompanyIdDto;
+import smida.techtask.dto.ReportAndCompanyIdDto;
 
 import java.util.List;
 

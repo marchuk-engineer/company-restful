@@ -1,4 +1,4 @@
-package smida.techtask.controllers.dto;
+package smida.techtask.dto;
 
 import lombok.Data;
 

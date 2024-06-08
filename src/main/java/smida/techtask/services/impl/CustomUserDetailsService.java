@@ -1,4 +1,4 @@
-package smida.techtask.services;
+package smida.techtask.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

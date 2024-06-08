@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
-import smida.techtask.controllers.dto.ReportAndCompanyIdDto;
+import smida.techtask.dto.ReportAndCompanyIdDto;
 import smida.techtask.entities.Report;
 
 import java.util.List;

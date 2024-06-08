@@ -2,8 +2,8 @@ package smida.techtask.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import smida.techtask.controllers.dto.CompanyReportsDto;
-import smida.techtask.controllers.dto.ReportDto;
+import smida.techtask.dto.CompanyReportsDto;
+import smida.techtask.dto.ReportDto;
 import smida.techtask.repositories.managers.CompanyManager;
 import smida.techtask.repositories.managers.CompanyReportsManager;
 import smida.techtask.mappers.CompanyReportsMapper;

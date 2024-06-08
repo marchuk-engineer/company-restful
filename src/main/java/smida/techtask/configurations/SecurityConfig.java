@@ -19,7 +19,7 @@ import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import smida.techtask.security.JwtAuthenticationFilter;
-import smida.techtask.services.CustomUserDetailsService;
+import smida.techtask.services.impl.CustomUserDetailsService;
 
 import java.util.List;
 

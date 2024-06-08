@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import smida.techtask.controllers.dto.CompanyReportsDto;
-import smida.techtask.controllers.dto.ReportDto;
+import smida.techtask.dto.CompanyReportsDto;
+import smida.techtask.dto.ReportDto;
 import smida.techtask.services.CompanyReportService;
 
 import java.util.UUID;

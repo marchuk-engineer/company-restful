@@ -1,4 +1,4 @@
-package smida.techtask.controllers;
+package smida.techtask.controllers.security;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import smida.techtask.controllers.dto.ErrorDto;
-import smida.techtask.controllers.dto.RegistrationDto;
+import smida.techtask.dto.security.ErrorDto;
+import smida.techtask.dto.security.RegistrationDto;
 
 import static smida.techtask.constants.RegistrationConstantMessages.USERNAME_IS_ALREADY_TAKEN_MESSAGE;
 import static smida.techtask.constants.RegistrationConstantMessages.USER_REGISTERED_SUCCESSFULLY_MESSAGE;
@@ -28,7 +28,7 @@ import static smida.techtask.constants.RegistrationConstantMessages.USER_REGISTE
 @Tag(name = "Registration", description = "Endpoints for registration and confirmation")
 public class RegistrationController {
 
-    private final RegistrationService registrationService;
+//    private final RegistrationService registrationService;
 
 
     @PostMapping("/sign-up")
@@ -41,7 +41,7 @@ public class RegistrationController {
                     @ApiResponse(responseCode = "400", description = "Invalid request body", content = @Content(schema = @Schema(implementation = ErrorDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE))
             })
     public void signUp(@RequestBody @Valid @NotNull RegistrationDto requestBody) {
-        registrationService.register(requestBody);
+//        registrationService.register(requestBody);
     }
 
 }

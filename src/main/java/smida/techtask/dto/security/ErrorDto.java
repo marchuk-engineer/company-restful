@@ -1,4 +1,4 @@
-package smida.techtask.controllers.dto;
+package smida.techtask.dto.security;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;

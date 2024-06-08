@@ -10,12 +10,11 @@ import java.util.Optional;
 @UtilityClass
 public class CookieUtils {
 
-    public final String USER_ID_COOKIE_NAME = "USER_ID";
-    public final String REFRESH_TOKEN_COOKIE_NAME = "REFRESH_TOKEN";
+    public static final String USER_ID_COOKIE_NAME = "USER_ID";
+    public static final String REFRESH_TOKEN_COOKIE_NAME = "REFRESH_TOKEN";
 
     public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {
         Cookie[] cookies = request.getCookies();
-
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(name)) {
@@ -23,7 +22,6 @@ public class CookieUtils {
                 }
             }
         }
-
         return Optional.empty();
     }
 
@@ -57,4 +55,5 @@ public class CookieUtils {
             }
         }
     }
+
 }

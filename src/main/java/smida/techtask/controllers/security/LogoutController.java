@@ -1,4 +1,4 @@
-package smida.techtask.controllers;
+package smida.techtask.controllers.security;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

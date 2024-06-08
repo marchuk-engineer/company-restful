@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import smida.techtask.controllers.dto.CompanyDto;
+import smida.techtask.dto.CompanyDto;
 import smida.techtask.services.CompanyService;
 
 import java.util.List;
@@ -72,7 +72,7 @@ public class CompanyController {
     @ResponseStatus(HttpStatus.CREATED)
     public CompanyDto create(@RequestBody @Valid CompanyDto requestBody, HttpServletResponse response) {
         CompanyDto responseBody = companyService.save(requestBody);
-        String resourceLocation = String.format("/companies/" + responseBody.getId());
+        String resourceLocation = String.format("/companies/%s", responseBody.getId());
         response.setHeader(HttpHeaders.LOCATION, resourceLocation);
         return responseBody;
     }
