@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import smida.techtask.annotations.ReportNotFoundException;
 import smida.techtask.entities.Company;
 import smida.techtask.entities.Report;
+import smida.techtask.exceptions.ReportNotFoundException;
 import smida.techtask.repositories.ReportRepository;
 
 import java.util.UUID;
@@ -33,7 +33,7 @@ public class CompanyReportsManager {
     public Report getById(UUID companyId, UUID reportId) {
         companyManager.getById(companyId);
         return repository.findById(reportId)
-                .orElseThrow(ReportNotFoundException::new);
+                .orElseThrow(() -> new ReportNotFoundException(reportId));
     }
 
     /**

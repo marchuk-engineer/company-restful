@@ -3,8 +3,8 @@ package smida.techtask.repositories.managers;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import smida.techtask.annotations.CompanyNotFoundException;
 import smida.techtask.entities.Company;
+import smida.techtask.exceptions.CompanyNotFoundException;
 import smida.techtask.repositories.CompanyRepository;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class CompanyManager {
      */
     public Company getById(UUID id) {
         return companyRepository.findById(id)
-                .orElseThrow(CompanyNotFoundException::new);
+                .orElseThrow(() -> new CompanyNotFoundException(id));
     }
 
     /**
@@ -58,7 +58,7 @@ public class CompanyManager {
      */
     public Company update(UUID id, Company company) {
         Company existingCompany = companyRepository.findById(id)
-                .orElseThrow(CompanyNotFoundException::new);
+                .orElseThrow(() -> new CompanyNotFoundException(id));
         modelMapper.map(company, existingCompany);
         return companyRepository.save(existingCompany);
     }
@@ -82,7 +82,7 @@ public class CompanyManager {
      */
     private void checkPresenceById(UUID id) {
         if (!companyRepository.existsById(id)) {
-            throw new CompanyNotFoundException();
+            throw new CompanyNotFoundException(id);
         }
     }
 
