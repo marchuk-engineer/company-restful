@@ -3,7 +3,7 @@ package smida.techtask.services.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import smida.techtask.controllers.dto.ReportAndCompanyIdDto;
-import smida.techtask.managers.ReportManager;
+import smida.techtask.repositories.managers.ReportManager;
 import smida.techtask.mappers.ReportAndCompanyIdMapper;
 import smida.techtask.services.ReportService;
 

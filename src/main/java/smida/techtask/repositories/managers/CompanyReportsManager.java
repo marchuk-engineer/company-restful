@@ -1,4 +1,4 @@
-package smida.techtask.managers;
+package smida.techtask.repositories.managers;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

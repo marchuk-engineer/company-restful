@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import smida.techtask.controllers.dto.CompanyDto;
 import smida.techtask.entities.Company;
-import smida.techtask.managers.CompanyManager;
+import smida.techtask.repositories.managers.CompanyManager;
 import smida.techtask.mappers.CompanyMapper;
 import smida.techtask.services.CompanyService;
 
