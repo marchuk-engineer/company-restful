@@ -10,21 +10,17 @@ import smida.techtask.services.CompanyService;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
-
 
     private final CompanyManager companyManager;
     private final CompanyMapper companyMapper;
 
     @Override
     public List<CompanyDto> getAll() {
-        return companyManager.getAll().stream()
-                .map(companyMapper::toDto)
-                .collect(Collectors.toList());
+        return companyMapper.toDto(companyManager.getAll());
     }
 
     @Override

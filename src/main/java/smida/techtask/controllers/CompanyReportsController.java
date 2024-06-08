@@ -9,22 +9,27 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import smida.techtask.dto.CompanyReportsDto;
-import smida.techtask.dto.ReportDto;
+import smida.techtask.controllers.dto.CompanyReportsDto;
+import smida.techtask.controllers.dto.ReportDto;
+import smida.techtask.services.CompanyReportService;
 
-import java.util.List;
 import java.util.UUID;
 
+/**
+ * Controller for managing reports of a specific company.
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/companies/{companyId}/reports")
 public class CompanyReportsController {
 
+    private final CompanyReportService companyReportService;
+
     /**
-     * Retrieve all reports of a specific company.
+     * Retrieves all reports of a specific company.
      *
-     * @param companyId The ID of the company
-     * @return List of CompanyReportsDto
+     * @param companyId The ID of the company.
+     * @return The DTO representation of all reports of the specified company.
      */
     @Operation(summary = "Get all reports of a specific company")
     @ApiResponses(value = {
@@ -32,16 +37,16 @@ public class CompanyReportsController {
     })
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<CompanyReportsDto> getReportsByCompanyId(@PathVariable UUID companyId) {
-        return reportService.getAllByCompanyId(companyId);
+    public CompanyReportsDto getReportsByCompanyId(@PathVariable UUID companyId) {
+        return companyReportService.getAllByCompanyId(companyId);
     }
 
     /**
-     * Retrieve a report by company ID and report ID.
+     * Retrieves a report by its ID within a company.
      *
-     * @param companyId The ID of the company
-     * @param id        The ID of the report
-     * @return ReportDto
+     * @param companyId The ID of the company.
+     * @param id        The ID of the report to retrieve.
+     * @return The DTO representation of the specified report.
      */
     @Operation(summary = "Get a report by company and report ID")
     @ApiResponses(value = {
@@ -51,16 +56,16 @@ public class CompanyReportsController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ReportDto getByCompanyAndReportId(@PathVariable UUID companyId, @PathVariable UUID id) {
-        return reportService.getById(companyId, id);
+        return companyReportService.getById(companyId, id);
     }
 
     /**
-     * Create a new report for a specific company.
+     * Creates a new report for a specific company.
      *
-     * @param companyId   The ID of the company
-     * @param requestBody The request body containing report details
-     * @param response    HttpServletResponse
-     * @return ReportDto
+     * @param companyId   The ID of the company to which the report belongs.
+     * @param requestBody The DTO representation of the report to create.
+     * @param response    The HTTP servlet response object.
+     * @return The DTO representation of the created report.
      */
     @Operation(summary = "Create a new report for a specific company")
     @ApiResponses(value = {
@@ -70,21 +75,19 @@ public class CompanyReportsController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ReportDto createByCompanyId(@PathVariable UUID companyId, @RequestBody ReportDto requestBody, HttpServletResponse response) {
-        CompanyReportsDto companyReportsDto = reportService.createReportById(companyId, requestBody);
-        ReportDto createdReport = companyReportsDto.getReports().getLast();
-        String locationSource = String.format("/companies/" + companyId + "/reports/" + createdReport.getId());
+        ReportDto createdReport = companyReportService.createReportById(companyId, requestBody);
+        String locationSource = String.format("/companies/%s/reports/%s", companyId, createdReport.getId());
         response.setHeader(HttpHeaders.LOCATION, locationSource);
         return createdReport;
     }
 
-
     /**
-     * Update an existing report for a specific company.
+     * Updates an existing report within a company.
      *
-     * @param companyId   The ID of the company
-     * @param id          The ID of the report
-     * @param requestBody The request body containing updated report details
-     * @return ReportDto
+     * @param companyId   The ID of the company to which the report belongs.
+     * @param id          The ID of the report to update.
+     * @param requestBody The DTO representation of the updated report.
+     * @return The DTO representation of the updated report.
      */
     @Operation(summary = "Update an existing report for a specific company")
     @ApiResponses(value = {
@@ -94,14 +97,14 @@ public class CompanyReportsController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ReportDto updateByCompanyAndReportId(@PathVariable UUID companyId, @PathVariable UUID id, @RequestBody ReportDto requestBody) {
-        return reportService.updateReport(companyId, id, requestBody);
+        return companyReportService.updateReport(companyId, id, requestBody);
     }
 
     /**
-     * Delete a report by company ID and report ID.
+     * Deletes a report from a company.
      *
-     * @param companyId The ID of the company
-     * @param id        The ID of the report to be deleted
+     * @param companyId The ID of the company from which the report will be deleted.
+     * @param id        The ID of the report to delete.
      */
     @Operation(summary = "Delete a report by company and report ID")
     @ApiResponses(value = {
@@ -111,7 +114,7 @@ public class CompanyReportsController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteByCompanyAndReportId(@PathVariable UUID companyId, @PathVariable UUID id) {
-        reportService.deleteReport(companyId, id);
+        companyReportService.deleteReport(companyId, id);
     }
 
 }

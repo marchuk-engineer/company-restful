@@ -36,7 +36,7 @@ public class Company {
     @CreatedDate
     private Instant createdAt;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Report> report = new ArrayList<>();
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Report> reports = new ArrayList<>();
 
 }

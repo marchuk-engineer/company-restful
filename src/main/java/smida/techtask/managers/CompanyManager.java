@@ -17,7 +17,6 @@ public class CompanyManager {
     private final CompanyRepository companyRepository;
     private final ModelMapper modelMapper;
 
-
     /**
      * Retrieves all companies.
      *
