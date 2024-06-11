@@ -1,7 +1,9 @@
 **Рішення технічного завдання від Марчука Михайла**
+
 **SWAGGER API: https://app.swaggerhub.com/apis-docs/MISHAAKAMICHAEL999/smida-api-restful/1.0**
 
 **Test coverage:**
+
 ![image](https://github.com/marchuk-engineer/smida-techtask/assets/112648286/17d52222-59bf-4dc5-ba1c-6c547403f016)
 
 <details lang="java">
