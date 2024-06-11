@@ -1,12 +1,11 @@
+-- changeset misha:17179455452418-1
 CREATE TYPE "user_role" AS ENUM (
     'USER',
     'EDITOR',
     'ADMIN');
 
--- liquibase formatted sql
-
 -- changeset misha:1717945229118-1
-CREATE TABLE smida_schema.company
+CREATE TABLE if not exists smida_schema.company
 (
     id                  UUID         NOT NULL,
     name                VARCHAR(255) NOT NULL,
@@ -17,31 +16,23 @@ CREATE TABLE smida_schema.company
 );
 
 -- changeset misha:1717945229118-2
-CREATE TABLE smida_schema.report
+CREATE TABLE IF NOT EXISTS smida_schema.report
 (
     id            UUID    NOT NULL,
     report_date   TIMESTAMP WITHOUT TIME ZONE,
     total_revenue DECIMAL NOT NULL,
     net_profit    DECIMAL NOT NULL,
     company_id    UUID    NOT NULL,
-    CONSTRAINT pk_report PRIMARY KEY (id)
+    CONSTRAINT pk_report PRIMARY KEY (id),
+    CONSTRAINT fk_report_on_company FOREIGN KEY (company_id) REFERENCES smida_schema.company (id)
 );
 
 -- changeset misha:1717945229118-3
-CREATE TABLE smida_schema.user
+CREATE TABLE if not exists smida_schema.users
 (
     id       UUID         NOT NULL,
-    username VARCHAR(255),
+    username VARCHAR(255) UNIQUE,
     password VARCHAR(255) NOT NULL,
     role     user_role    NOT NULL,
-    CONSTRAINT pk_user PRIMARY KEY (id)
+    CONSTRAINT pk_users PRIMARY KEY (id)
 );
-
--- changeset misha:1717945229118-4
-ALTER TABLE smida_schema.user
-    ADD CONSTRAINT uc_user_username UNIQUE (username);
-
--- changeset misha:1717945229118-5
-ALTER TABLE smida_schema.report
-    ADD CONSTRAINT FK_REPORT_ON_COMPANY FOREIGN KEY (company_id) REFERENCES smida_schema.company (id);
-
