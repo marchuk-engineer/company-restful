@@ -4,14 +4,13 @@ spring:
   #-------------------------
   liquibase:
     #    contexts: postgresql, mongodb
-    liquibase-schema: smida_schema
     change-log: classpath:db/changelog/changelog-master.yaml
-
+    liquibase-schema: smida_schema
   #-------------------------
   # Database configuration PostgreSQL
   #-------------------------
   datasource:
-    url: jdbc:postgresql://localhost:5432/smida?
+    url: jdbc:postgresql://postgres:5432/smida?currentSchema="smida_schema"
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
     driverClassName: org.postgresql.Driver
@@ -23,7 +22,7 @@ spring:
   ##-------------------------
   data:
     mongodb:
-      uri: mongodb://localhost:27017/smida?
+      uri: mongodb://mongodb:27017/smida
       auto-index-creation: true
       database: smida
       username: ${MONGODB_USERNAME}

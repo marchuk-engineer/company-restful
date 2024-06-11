@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - includeAll:
+      path: classpath:db/changelog/postgresql
+#  - include:
+#      file: classpath:db/changelog/mongodb/master.xml
