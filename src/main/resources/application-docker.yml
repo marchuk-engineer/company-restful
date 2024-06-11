@@ -1,0 +1,44 @@
+spring:
+  #-------------------------
+  # Liquibase
+  #-------------------------
+  liquibase:
+    #    contexts: postgresql, mongodb
+    change-log: classpath:db/changelog/changelog-master.yaml
+
+  #-------------------------
+  # Database configuration PostgreSQL
+  #-------------------------
+  datasource:
+    url: jdbc:postgresql://postgres:5432/smida
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driverClassName: org.postgresql.Driver
+    hikari:
+      schema: smida_schema
+
+  ##-------------------------
+  ## Database configuration MongoDB
+  ##-------------------------
+  data:
+    mongodb:
+      uri: mongodb://mongodb:27017/smida
+      auto-index-creation: true
+      database: smida
+      username: ${MONGODB_USERNAME}
+      password: ${MONGODB_PASSWORD}
+
+  ##-------------------------
+  ## JPA Properties
+  ##-------------------------
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+  ##-------------------------
+  ## JWT Properties
+  ##-------------------------
+jwtSecret: ${JWT_SECRET}
+accessTokenExpirationMs: '1440'
+refreshTokenExpirationMs: '90000'
