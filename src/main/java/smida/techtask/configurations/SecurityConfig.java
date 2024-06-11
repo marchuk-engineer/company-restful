@@ -18,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import smida.techtask.constants.ApiConstants;
 import smida.techtask.security.CustomUserDetailsService;
 import smida.techtask.security.JwtAuthenticationFilter;
 import smida.techtask.security.RestAuthenticationEntryPoint;
@@ -39,7 +40,7 @@ public class SecurityConfig {
     private final String[] PUBLIC_URL = {
             "/swagger*/**",
             "/v3/api-docs/**",
-            "/auth/**"
+            ApiConstants.BASE_URL + "/auth/**"
     };
 
     @Bean

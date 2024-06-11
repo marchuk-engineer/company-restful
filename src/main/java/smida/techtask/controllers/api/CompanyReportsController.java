@@ -21,7 +21,7 @@ import java.util.UUID;
 @RequestMapping(ApiConstants.BASE_URL + "/companies/{companyId}/reports")
 public class CompanyReportsController implements CompanyReportsApi {
 
-    private static final String RESOURCE_LOCATION = ApiConstants.BASE_URL + "/companies/{companyId}/reports";
+    private static final String RESOURCE_LOCATION = ApiConstants.BASE_URL + "/companies/%s/reports";
 
     private final CompanyReportService companyReportService;
 
@@ -44,7 +44,7 @@ public class CompanyReportsController implements CompanyReportsApi {
     @PreAuthorize("hasAnyRole('EDITOR', 'ADMIN')")
     public ReportDto createByCompanyId(@PathVariable UUID companyId, @RequestBody @Valid @NotNull ReportDto requestBody, HttpServletResponse response) {
         ReportDto createdReport = companyReportService.createReportById(companyId, requestBody);
-        String location = String.format(RESOURCE_LOCATION, companyId).concat(createdReport.getId().toString());
+        String location = String.format(RESOURCE_LOCATION, companyId).concat("/" + createdReport.getId().toString());
         response.setHeader(HttpHeaders.LOCATION, location);
         return createdReport;
     }

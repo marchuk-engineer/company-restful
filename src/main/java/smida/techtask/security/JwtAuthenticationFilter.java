@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import smida.techtask.entities.User;
 import smida.techtask.utils.CookieUtils;
-import smida.techtask.utils.JwtUtils;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -35,6 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String LOGOUT_ENDPOINT = "/logout";
 
     private final UserDetailsService userDetailsService;
+    private final JwtService jwtService;
 
     private UserDetails userDetails;
 
@@ -64,26 +64,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String accessToken = JwtUtils.extractAccessToken(request);
-        String refreshToken = JwtUtils.extractRefreshToken(request);
+        String accessToken = JwtService.extractAccessToken(request);
+        String refreshToken = JwtService.extractRefreshToken(request);
 
         if (accessToken == null || refreshToken == null) {
             log.warn("JWT token/tokens hasn't been provided");
-        } else if (Objects.isNull(JwtUtils.extractUsername(refreshToken))) {
+        } else if (Objects.isNull(jwtService.extractUsername(refreshToken))) {
             log.warn("Invalid JWT refresh token has been provided");
             response.sendRedirect(LOGOUT_ENDPOINT);
             return;
-        } else if (Objects.isNull(getUserDetails(JwtUtils.extractUsername(refreshToken)))) {
+        } else if (Objects.isNull(getUserDetails(jwtService.extractUsername(refreshToken)))) {
             log.warn("No user is present");
         } else {
             User user = (User) userDetails;
             String username = user.getUsername();
 
-            if (JwtUtils.validateAccessToken(accessToken)) {
+            if (jwtService.validateAccessToken(accessToken)) {
                 handleValidAccessToken(response, refreshToken, userDetails, username);
             } else {
                 try {
-                    JwtUtils.validateRefreshToken(refreshToken);
+                    jwtService.validateRefreshToken(refreshToken);
                     handleValidRefreshToken(response, userDetails, username);
                 } catch (ExpiredJwtException e) {
                     response.sendRedirect(LOGOUT_ENDPOINT);
@@ -103,7 +103,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      * @param username     The user's username.
      */
     private void handleValidAccessToken(HttpServletResponse response, String refreshToken, UserDetails userDetails, String username) {
-        String newAccessToken = JwtUtils.generateAccessToken(username);
+        String newAccessToken = jwtService.generateAccessToken(username);
         setAuthenticationResponseData(response, newAccessToken, refreshToken, userDetails);
     }
 
@@ -115,8 +115,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      * @param username    The user's username.
      */
     private void handleValidRefreshToken(HttpServletResponse response, UserDetails userDetails, String username) {
-        String newAccessToken = JwtUtils.generateAccessToken(username);
-        String newRefreshToken = JwtUtils.generateRefreshToken(username);
+        String newAccessToken = jwtService.generateAccessToken(username);
+        String newRefreshToken = jwtService.generateRefreshToken(username);
         setAuthenticationResponseData(response, newAccessToken, newRefreshToken, userDetails);
     }
 
@@ -138,9 +138,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private void setAuthenticationResponseData(HttpServletResponse response, String accessToken, String refreshToken, UserDetails userDetails) {
-        CookieUtils.addCookie(response, CookieUtils.REFRESH_TOKEN_COOKIE_NAME, refreshToken, JwtUtils.REFRESHTOKENEXPIRATIONMS, true, true);
-        CookieUtils.addCookie(response, CookieUtils.USER_ID_COOKIE_NAME, ((User) userDetails).getId().toString(), JwtUtils.ACCESSTOKENEXPIRATIONMS, false, true);
-        response.setHeader(HttpHeaders.AUTHORIZATION, JwtUtils.BEARER + accessToken);
+        CookieUtils.addCookie(response, CookieUtils.REFRESH_TOKEN_COOKIE_NAME, refreshToken, jwtService.getRefreshTokenExpirationMs(), true, true);
+        CookieUtils.addCookie(response, CookieUtils.USER_ID_COOKIE_NAME, ((User) userDetails).getId().toString(), jwtService.getRefreshTokenExpirationMs(), false, true);
+        response.setHeader(HttpHeaders.AUTHORIZATION, JwtService.BEARER + accessToken);
     }
 
     private void setSecurityContext(UserDetails userDetails) {

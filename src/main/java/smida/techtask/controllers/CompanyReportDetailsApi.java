@@ -7,8 +7,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import smida.techtask.annotations.JwtAuthParams;
 import smida.techtask.annotations.ServerErrorHttpResponses;
 import smida.techtask.annotations.UnauthorizedHttpResponse;
@@ -35,7 +39,7 @@ public interface CompanyReportDetailsApi {
                     content = @Content(schema = @Schema(implementation = ErrorDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    ReportDetailsDto getById(UUID companyId, UUID reportId, UUID id);
+    ReportDetailsDto getById(@PathVariable UUID companyId, @PathVariable UUID reportId, @PathVariable UUID id);
 
     @Operation(summary = "Create a report details")
     @ApiResponses(value = {
@@ -48,7 +52,7 @@ public interface CompanyReportDetailsApi {
                     content = @Content(schema = @Schema(implementation = ErrorDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    ReportDetailsDto create(UUID companyId, UUID reportId, ReportDetailsDto requestBody);
+    ReportDetailsDto create(@PathVariable UUID companyId, @PathVariable UUID reportId, @Valid @NotNull @RequestBody ReportDetailsDto requestBody);
 
     @Operation(summary = "Update an existing report details")
     @ApiResponses(value = {
@@ -65,7 +69,7 @@ public interface CompanyReportDetailsApi {
                     content = @Content(schema = @Schema(implementation = ErrorDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    ReportDetailsDto update(UUID companyId, UUID reportId, UUID id, ReportDetailsDto requestBody);
+    ReportDetailsDto update(@PathVariable UUID companyId, @PathVariable UUID reportId, @PathVariable UUID id, @Valid @NotNull @RequestBody ReportDetailsDto requestBody);
 
     @Operation(summary = "Delete a report details by ID")
     @ApiResponses(value = {
@@ -75,6 +79,6 @@ public interface CompanyReportDetailsApi {
                     content = @Content(schema = @Schema(implementation = ErrorDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    void delete(UUID companyId, UUID reportId, UUID id);
+    void delete(@PathVariable UUID companyId, @PathVariable UUID reportId, @PathVariable UUID id);
 
 }

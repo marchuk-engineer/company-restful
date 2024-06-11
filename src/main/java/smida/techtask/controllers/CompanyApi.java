@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import smida.techtask.annotations.JwtAuthParams;
 import smida.techtask.annotations.ServerErrorHttpResponses;
@@ -49,7 +50,7 @@ public interface CompanyApi {
                     content = @Content(schema = @Schema(implementation = ErrorDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    CompanyDto getById(UUID id);
+    CompanyDto getById(@PathVariable UUID id);
 
     @Operation(summary = "Create a new company")
     @ApiResponses(value = {
@@ -79,7 +80,7 @@ public interface CompanyApi {
                     content = @Content(schema = @Schema(implementation = ErrorDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    CompanyDto update(UUID id, @Valid @NotNull @RequestBody CompanyDto requestBody);
+    CompanyDto update(@PathVariable UUID id, @Valid @NotNull @RequestBody CompanyDto requestBody);
 
     @Operation(summary = "Delete a company by ID")
     @ApiResponses(value = {
@@ -89,6 +90,6 @@ public interface CompanyApi {
                     content = @Content(schema = @Schema(implementation = ErrorDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    void deleteById(UUID id);
+    void deleteById(@PathVariable UUID id);
 
 }

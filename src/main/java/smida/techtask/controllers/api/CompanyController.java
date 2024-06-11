@@ -42,7 +42,7 @@ public class CompanyController implements CompanyApi {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('EDITOR', 'ADMIN')")
-    public CompanyDto create(@Valid @NotNull CompanyDto requestBody, HttpServletResponse response) {
+    public CompanyDto create(@Valid @NotNull @RequestBody CompanyDto requestBody, HttpServletResponse response) {
         CompanyDto responseBody = companyService.save(requestBody);
         String location = RESOURCE_LOCATION.concat(responseBody.getId().toString());
         response.setHeader(HttpHeaders.LOCATION, location);

@@ -3,7 +3,6 @@ package smida.techtask.repositories.managers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import smida.techtask.entities.Company;
 import smida.techtask.entities.Report;
 import smida.techtask.exceptions.notfound.ReportNotFoundException;
 import smida.techtask.mappers.ReportMapper;
@@ -18,52 +17,19 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CompanyReportsManager {
 
-    private final CompanyManager companyManager;
     private final ReportRepository repository;
     private final ReportMapper reportMapper;
 
-    /**
-     * Retrieves a report by its ID within a company.
-     *
-     * @param companyId The ID of the company.
-     * @param reportId  The ID of the report to retrieve.
-     * @return The report entity.
-     * @throws ReportNotFoundException if the report with the specified ID is not found.
-     */
-    public Report getById(UUID companyId, UUID reportId) {
-        companyManager.getById(companyId);
-        return repository.findById(reportId)
-                .orElseThrow(() -> new ReportNotFoundException(reportId));
-    }
 
     /**
      * Saves a new report for a specific company.
      *
-     * @param companyId The ID of the company to which the report belongs.
-     * @param report    The report entity to save.
+     * @param report The report entity to save.
      * @return The saved report entity.
      */
     @Transactional
-    public Report save(UUID companyId, Report report) {
-        Company existingCompany = companyManager.getById(companyId);
-        existingCompany.getReports().add(report);
-        return report;
-    }
-
-    /**
-     * Updates an existing report within a company.
-     *
-     * @param companyId The ID of the company to which the report belongs.
-     * @param reportId  The ID of the report to update.
-     * @param report    The updated report entity.
-     * @return The updated report entity.
-     * @throws ReportNotFoundException if the report with the specified ID is not found.
-     */
-    @Transactional
-    public Report update(UUID companyId, UUID reportId, Report report) {
-        Report existingReport = getById(companyId, reportId);
-        reportMapper.update(report, existingReport);
-        return existingReport;
+    public Report save(Report report) {
+        return repository.save(report);
     }
 
     /**
@@ -74,8 +40,13 @@ public class CompanyReportsManager {
      * @throws ReportNotFoundException if the report with the specified ID is not found.
      */
     public void delete(UUID companyId, UUID reportId) {
-        Report report = getById(companyId, reportId);
+        Report report = findById(reportId);
         repository.delete(report);
+    }
+
+    public Report findById(UUID id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ReportNotFoundException(id));
     }
 
 }

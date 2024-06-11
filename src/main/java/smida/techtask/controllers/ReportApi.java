@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import smida.techtask.annotations.JwtAuthParams;
 import smida.techtask.annotations.ServerErrorHttpResponses;
 import smida.techtask.annotations.UnauthorizedHttpResponse;
@@ -44,6 +45,6 @@ public interface ReportApi {
                     content = @Content(schema = @Schema(implementation = ErrorDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    ReportDetailsDto getDetailsByReportId(UUID reportId);
+    ReportDetailsDto getDetailsByReportId(@PathVariable UUID reportId);
 
 }

@@ -11,11 +11,11 @@ import smida.techtask.constants.ApiConstants;
 import smida.techtask.controllers.LoginApi;
 import smida.techtask.dto.security.LoginDto;
 import smida.techtask.entities.User;
+import smida.techtask.security.JwtService;
 import smida.techtask.services.LoginService;
 import smida.techtask.utils.CookieUtils;
-import smida.techtask.utils.JwtUtils;
 
-import static smida.techtask.utils.JwtUtils.BEARER;
+import static smida.techtask.security.JwtService.BEARER;
 
 
 @RestController
@@ -24,6 +24,7 @@ import static smida.techtask.utils.JwtUtils.BEARER;
 public class LoginController implements LoginApi {
 
     private final LoginService loginService;
+    private final JwtService jwtService;
 
     @PostMapping("/sign-in")
     @ResponseStatus(HttpStatus.OK)
@@ -34,11 +35,11 @@ public class LoginController implements LoginApi {
     }
 
     private void setHeadersAndCookies(User user, HttpServletResponse response) {
-        String refreshToken = JwtUtils.generateRefreshToken(user.getUsername());
-        String accessToken = JwtUtils.generateAccessToken(user.getUsername());
+        String refreshToken = jwtService.generateRefreshToken(user.getUsername());
+        String accessToken = jwtService.generateAccessToken(user.getUsername());
 
-        CookieUtils.addCookie(response, CookieUtils.REFRESH_TOKEN_COOKIE_NAME, refreshToken, JwtUtils.REFRESHTOKENEXPIRATIONMS, true, true);
-        CookieUtils.addCookie(response, CookieUtils.USER_ID_COOKIE_NAME, user.getId().toString(), JwtUtils.ACCESSTOKENEXPIRATIONMS, false, true);
+        CookieUtils.addCookie(response, CookieUtils.REFRESH_TOKEN_COOKIE_NAME, refreshToken, jwtService.getRefreshTokenExpirationMs(), true, true);
+        CookieUtils.addCookie(response, CookieUtils.USER_ID_COOKIE_NAME, user.getId().toString(), jwtService.getRefreshTokenExpirationMs(), false, true);
         response.setHeader(HttpHeaders.AUTHORIZATION, BEARER + accessToken);
     }
 

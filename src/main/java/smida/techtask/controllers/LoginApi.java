@@ -7,7 +7,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import smida.techtask.annotations.ServerErrorHttpResponses;
 import smida.techtask.dto.security.ErrorDto;
 import smida.techtask.dto.security.LoginDto;
@@ -27,6 +30,6 @@ public interface LoginApi {
                     description = "Invalid credentials or such user doesn't exist",
                     content = {@Content(schema = @Schema(implementation = ErrorDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    void basicLogin(LoginDto requestBody, HttpServletResponse response);
+    void basicLogin(@RequestBody @Valid @NotNull LoginDto requestBody, HttpServletResponse response);
 
 }

@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import smida.techtask.dto.CompanyReportsDto;
 import smida.techtask.dto.ReportDto;
+import smida.techtask.entities.Company;
+import smida.techtask.entities.Report;
+import smida.techtask.exceptions.notfound.ReportNotFoundException;
 import smida.techtask.mappers.CompanyReportsMapper;
 import smida.techtask.mappers.ReportMapper;
 import smida.techtask.repositories.managers.CompanyManager;
@@ -29,22 +32,42 @@ public class CompanyReportsServiceImpl implements CompanyReportService {
 
     @Override
     public ReportDto getById(UUID companyId, UUID reportId) {
-        return reportMapper.toDto(companyReportsManager.getById(companyId, reportId));
+        Company existingCompany = companyManager.getById(companyId);
+        Report existingReport = companyReportsManager.findById(reportId);
+        if (existingCompany.getReports().contains(existingReport)) {
+            return reportMapper.toDto(existingReport);
+        }
+        throw new ReportNotFoundException(reportId);
     }
 
     @Override
     public ReportDto createReportById(UUID companyId, ReportDto reportDto) {
-        return reportMapper.toDto(companyReportsManager.save(companyId, reportMapper.toEntity(reportDto)));
+        Company existingCompany = companyManager.getById(companyId);
+        Report report = reportMapper.toEntity(reportDto);
+        report.setCompany(existingCompany);
+        return reportMapper.toDto(companyReportsManager.save(report));
     }
 
     @Override
     public ReportDto updateReport(UUID companyId, UUID reportId, ReportDto reportDto) {
-        return reportMapper.toDto(companyReportsManager.update(companyId, reportId, reportMapper.toEntity(reportDto)));
+        Company existingCompany = companyManager.getById(companyId);
+        Report existingReport = companyReportsManager.findById(reportId);
+        if (existingCompany.getReports().contains(existingReport)) {
+            reportMapper.update(reportMapper.toEntity(reportDto), existingReport);
+            companyReportsManager.save(existingReport);
+            reportMapper.toDto(existingReport);
+        }
+        throw new ReportNotFoundException(reportId);
     }
 
     @Override
     public void deleteReport(UUID companyId, UUID reportId) {
-        reportSagaService.deleteReportAndDetails(companyReportsManager.getById(companyId, reportId));
+        Company existingCompany = companyManager.getById(companyId);
+        Report existingReport = companyReportsManager.findById(reportId);
+        if (existingCompany.getReports().contains(existingReport)) {
+            reportSagaService.deleteReportAndDetails(existingReport);
+        }
+        throw new ReportNotFoundException(reportId);
     }
 
 }

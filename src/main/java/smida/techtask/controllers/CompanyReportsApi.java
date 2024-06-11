@@ -8,8 +8,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import smida.techtask.annotations.JwtAuthParams;
 import smida.techtask.annotations.ServerErrorHttpResponses;
 import smida.techtask.annotations.UnauthorizedHttpResponse;
@@ -36,7 +40,7 @@ public interface CompanyReportsApi {
                     content = @Content(schema = @Schema(implementation = ErrorDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    CompanyReportsDto getAllByCompanyId(UUID companyId);
+    CompanyReportsDto getAllByCompanyId(@PathVariable UUID companyId);
 
     @Operation(summary = "Get a report by company and report ID")
     @ApiResponses(value = {
@@ -49,7 +53,7 @@ public interface CompanyReportsApi {
                     content = @Content(schema = @Schema(implementation = ErrorDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    ReportDto getByCompanyAndReportId(UUID companyId, UUID id);
+    ReportDto getByCompanyAndReportId(@PathVariable UUID companyId, @PathVariable UUID id);
 
     @Operation(summary = "Create a new report for a specific company")
     @ApiResponses(value = {
@@ -63,7 +67,7 @@ public interface CompanyReportsApi {
                     content = @Content(schema = @Schema(implementation = ErrorDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    ReportDto createByCompanyId(UUID companyId, ReportDto requestBody, HttpServletResponse response);
+    ReportDto createByCompanyId(@PathVariable UUID companyId, @RequestBody @Valid @NotNull ReportDto requestBody, HttpServletResponse response);
 
     @Operation(summary = "Update an existing report for a specific company")
     @ApiResponses(value = {
@@ -76,7 +80,7 @@ public interface CompanyReportsApi {
                     content = @Content(schema = @Schema(implementation = ErrorDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    ReportDto updateByCompanyAndReportId(UUID companyId, UUID id, ReportDto requestBody);
+    ReportDto updateByCompanyAndReportId(@PathVariable UUID companyId, @PathVariable UUID id, @RequestBody @Valid @NotNull ReportDto requestBody);
 
     @Operation(summary = "Delete a report by company and report ID")
     @ApiResponses(value = {
@@ -86,6 +90,6 @@ public interface CompanyReportsApi {
                     content = @Content(schema = @Schema(implementation = ErrorDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    void deleteByCompanyAndReportId(UUID companyId, UUID id);
+    void deleteByCompanyAndReportId(@PathVariable UUID companyId, @PathVariable UUID id);
 
 }
