@@ -17,6 +17,7 @@ Other endpoints require authentication.
 *Read: User, Editor, Admin
 Write: Editor, Admin
 Delete: Admin*
+
 **Use the Following Already Registered Users:**
 
 ***ADMIN: username: smida-admin, password: admin***
