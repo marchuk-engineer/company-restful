@@ -1,6 +1,6 @@
 package smida.techtask.services;
 
-import smida.techtask.controllers.dto.CompanyDto;
+import smida.techtask.dto.CompanyDto;
 
 import java.util.List;
 import java.util.UUID;

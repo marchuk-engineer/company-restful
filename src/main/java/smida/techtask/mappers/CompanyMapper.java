@@ -1,8 +1,6 @@
 package smida.techtask.mappers;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 import smida.techtask.dto.CompanyDto;
 import smida.techtask.entities.Company;
 
@@ -45,6 +43,10 @@ public interface CompanyMapper {
      * @return The corresponding list of {@link CompanyDto} DTOs.
      */
     List<CompanyDto> toDto(List<Company> company);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    void update(Company source, @MappingTarget Company target);
 
 }
 

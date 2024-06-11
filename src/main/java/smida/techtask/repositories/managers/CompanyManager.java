@@ -1,21 +1,25 @@
 package smida.techtask.repositories.managers;
 
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import smida.techtask.entities.Company;
-import smida.techtask.exceptions.CompanyNotFoundException;
+import smida.techtask.exceptions.notfound.CompanyNotFoundException;
+import smida.techtask.mappers.CompanyMapper;
 import smida.techtask.repositories.CompanyRepository;
 
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The CompanyManager class manages operations related to Company entity.
+ */
 @Component
 @RequiredArgsConstructor
 public class CompanyManager {
 
     private final CompanyRepository companyRepository;
-    private final ModelMapper modelMapper;
+    private final CompanyMapper companyMapper;
 
     /**
      * Retrieves all companies.
@@ -56,11 +60,12 @@ public class CompanyManager {
      * @return the updated company entity
      * @throws CompanyNotFoundException if no company is found with the given ID
      */
+    @Transactional
     public Company update(UUID id, Company company) {
         Company existingCompany = companyRepository.findById(id)
                 .orElseThrow(() -> new CompanyNotFoundException(id));
-        modelMapper.map(company, existingCompany);
-        return companyRepository.save(existingCompany);
+        companyMapper.update(company, existingCompany);
+        return existingCompany;
     }
 
     /**

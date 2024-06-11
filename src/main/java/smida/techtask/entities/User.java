@@ -5,13 +5,14 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import smida.techtask.constants.Role;
+import smida.techtask.dto.security.Role;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

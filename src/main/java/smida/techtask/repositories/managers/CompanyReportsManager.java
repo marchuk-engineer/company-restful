@@ -1,12 +1,12 @@
 package smida.techtask.repositories.managers;
 
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import smida.techtask.entities.Company;
 import smida.techtask.entities.Report;
-import smida.techtask.exceptions.ReportNotFoundException;
+import smida.techtask.exceptions.notfound.ReportNotFoundException;
+import smida.techtask.mappers.ReportMapper;
 import smida.techtask.repositories.ReportRepository;
 
 import java.util.UUID;
@@ -20,7 +20,7 @@ public class CompanyReportsManager {
 
     private final CompanyManager companyManager;
     private final ReportRepository repository;
-    private final ModelMapper modelMapper;
+    private final ReportMapper reportMapper;
 
     /**
      * Retrieves a report by its ID within a company.
@@ -62,7 +62,7 @@ public class CompanyReportsManager {
     @Transactional
     public Report update(UUID companyId, UUID reportId, Report report) {
         Report existingReport = getById(companyId, reportId);
-        modelMapper.map(report, existingReport);
+        reportMapper.update(report, existingReport);
         return existingReport;
     }
 

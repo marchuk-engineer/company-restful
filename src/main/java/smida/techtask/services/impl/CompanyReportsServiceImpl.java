@@ -4,22 +4,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import smida.techtask.dto.CompanyReportsDto;
 import smida.techtask.dto.ReportDto;
-import smida.techtask.repositories.managers.CompanyManager;
-import smida.techtask.repositories.managers.CompanyReportsManager;
 import smida.techtask.mappers.CompanyReportsMapper;
 import smida.techtask.mappers.ReportMapper;
+import smida.techtask.repositories.managers.CompanyManager;
+import smida.techtask.repositories.managers.CompanyReportsManager;
 import smida.techtask.services.CompanyReportService;
 
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class CompanyReportServiceImpl implements CompanyReportService {
+public class CompanyReportsServiceImpl implements CompanyReportService {
 
     private final CompanyReportsManager companyReportsManager;
     private final CompanyManager companyManager;
     private final ReportMapper reportMapper;
     private final CompanyReportsMapper companyReportsMapper;
+    private final ReportSagaService reportSagaService;
 
     @Override
     public CompanyReportsDto getAllByCompanyId(UUID companyId) {
@@ -43,7 +44,7 @@ public class CompanyReportServiceImpl implements CompanyReportService {
 
     @Override
     public void deleteReport(UUID companyId, UUID reportId) {
-        companyReportsManager.delete(companyId, reportId);
+        reportSagaService.deleteReportAndDetails(companyReportsManager.getById(companyId, reportId));
     }
 
 }

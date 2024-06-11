@@ -1,4 +1,4 @@
-package smida.techtask.exceptions;
+package smida.techtask.exceptions.base;
 
 import java.util.UUID;
 

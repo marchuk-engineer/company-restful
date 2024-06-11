@@ -32,11 +32,11 @@ public class Company {
     @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false, updatable = false)
+    @Column(updatable = false)
     @CreatedDate
     private Instant createdAt;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<Report> reports = new ArrayList<>();
 
 }

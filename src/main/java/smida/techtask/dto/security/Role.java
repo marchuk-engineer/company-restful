@@ -1,16 +1,15 @@
-package smida.techtask.constants;
+package smida.techtask.dto.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
+@RequiredArgsConstructor
 public enum Role implements GrantedAuthority {
     USER("USER"),
+    EDITOR("EDITOR"),
     ADMIN("ADMIN");
 
     private final String value;
-
-    Role(String value) {
-        this.value = "ROLE" + value;
-    }
 
     @Override
     public String getAuthority() {
