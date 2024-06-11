@@ -7,7 +7,7 @@
 ![image](https://github.com/marchuk-engineer/smida-techtask/assets/112648286/dfc979c3-25ac-404f-853b-c2a2b94e819d)
 
 
-***Project is environment secured, INSERT YOUR VALUES INTO .env file***
+***Project is environment secured, INSERT YOUR VALUES INTO .env file. File lays in project folder***
 
 Endpoints for sign-up, sign-in, logout are permitted to everybody, others require authentication
 
