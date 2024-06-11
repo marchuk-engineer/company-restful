@@ -18,8 +18,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import smida.techtask.security.CustomUserDetailsService;
 import smida.techtask.security.JwtAuthenticationFilter;
-import smida.techtask.services.impl.CustomUserDetailsService;
+import smida.techtask.security.RestAuthenticationEntryPoint;
 
 import java.util.List;
 
@@ -33,8 +34,12 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    private final String[] SECURED_PATHS = {
+    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
+    private final String[] PUBLIC_URL = {
+            "/swagger*/**",
+            "/v3/api-docs/**",
+            "/auth/**"
     };
 
     @Bean
@@ -45,10 +50,11 @@ public class SecurityConfig {
         http.logout(AbstractHttpConfigurer::disable);
         http.cors(Customizer.withDefaults());
 
-        http.authorizeHttpRequests(auth -> auth.requestMatchers(SECURED_PATHS).authenticated().anyRequest().permitAll());
+        http.authorizeHttpRequests(auth -> auth.requestMatchers(PUBLIC_URL).permitAll()
+                .anyRequest().authenticated());
 
         http.addFilterBefore(jwtAuthenticationFilter, ExceptionTranslationFilter.class);
-
+        http.exceptionHandling(ex -> ex.authenticationEntryPoint(restAuthenticationEntryPoint));
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();

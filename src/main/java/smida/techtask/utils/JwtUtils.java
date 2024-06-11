@@ -1,4 +1,4 @@
-package smida.techtask.security;
+package smida.techtask.utils;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -6,32 +6,41 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
+import lombok.experimental.UtilityClass;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 
 import static smida.techtask.utils.CookieUtils.REFRESH_TOKEN_COOKIE_NAME;
 
-@Component
+@UtilityClass
 @Log4j2
 @Getter
-public class JwtService {
+public class JwtUtils {
 
     public static final String BEARER = "Bearer ";
+    public static Integer ACCESSTOKENEXPIRATIONMS;
+    public static Integer REFRESHTOKENEXPIRATIONMS;
+    private static String STATIC_SECRET;
 
     @Value("${jwtSecret}")
-    private String jwtSecret;
+    public static void setStaticSecret(String staticSecret) {
+        STATIC_SECRET = staticSecret;
+    }
 
     @Value("${accessTokenExpirationMs}")
-    private int accessTokenExpirationMs;
+    public static void setAccessTokenExpirationMs(int accessTokenExpirationMs) {
+        ACCESSTOKENEXPIRATIONMS = accessTokenExpirationMs;
+    }
 
     @Value("${refreshTokenExpirationMs}")
-    private int refreshTokenExpirationMs;
+    public static void setRefreshTokenExpirationMs(int refreshTokenExpirationMs) {
+        REFRESHTOKENEXPIRATIONMS = refreshTokenExpirationMs;
+    }
 
     public static String extractAccessToken(HttpServletRequest request) {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
@@ -54,19 +63,19 @@ public class JwtService {
         return null;
     }
 
-    public boolean validateAccessToken(String accessToken) {
+    public static boolean validateAccessToken(String accessToken) {
         return validateToken(accessToken);
     }
 
-    public boolean validateRefreshToken(String refreshToken) {
+    public static boolean validateRefreshToken(String refreshToken) {
         return validateToken(refreshToken);
     }
 
-    public String extractUsername(String token) {
+    public static String extractUsername(String token) {
         Claims claims = null;
         try {
             claims = Jwts.parser()
-                    .setSigningKey(jwtSecret).build()
+                    .setSigningKey(STATIC_SECRET).build()
                     .parseClaimsJws(token)
                     .getBody();
 
@@ -78,15 +87,15 @@ public class JwtService {
         return claims.getSubject();
     }
 
-    public String generateAccessToken(String username) {
-        return generateToken(username, accessTokenExpirationMs);
+    public static String generateAccessToken(String username) {
+        return generateToken(username, ACCESSTOKENEXPIRATIONMS);
     }
 
-    public String generateRefreshToken(String username) {
-        return generateToken(username, refreshTokenExpirationMs);
+    public static String generateRefreshToken(String username) {
+        return generateToken(username, REFRESHTOKENEXPIRATIONMS);
     }
 
-    private String generateToken(String username, int expirationMs) {
+    private static String generateToken(String username, int expirationMs) {
         Date now = new Date();
         long expirationMillis = expirationMs * 60L * 1000L;
         Date expiryDate = new Date(now.getTime() + expirationMillis);
@@ -99,11 +108,11 @@ public class JwtService {
                 .compact();
     }
 
-    private Key key() {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
+    private static Key key() {
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(STATIC_SECRET));
     }
 
-    private boolean validateToken(String token) {
+    private static boolean validateToken(String token) {
         try {
             Jwts.parser()
                     .setSigningKey(key()).build()
