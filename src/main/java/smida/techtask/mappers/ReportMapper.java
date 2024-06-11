@@ -1,8 +1,6 @@
 package smida.techtask.mappers;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 import smida.techtask.dto.ReportDto;
 import smida.techtask.entities.Report;
 
@@ -37,5 +35,9 @@ public interface ReportMapper {
      * @return The corresponding {@link ReportDto} DTO.
      */
     ReportDto toDto(Report report);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "reportDate", ignore = true)
+    void update(Report source, @MappingTarget Report target);
 
 }
