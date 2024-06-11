@@ -7,23 +7,23 @@
 ![image](https://github.com/marchuk-engineer/smida-techtask/assets/112648286/dfc979c3-25ac-404f-853b-c2a2b94e819d)
 
 
-**Project is environment secured, INSERT YOUR VALUES INTO .env file**
+***Project is environment secured, INSERT YOUR VALUES INTO .env file***
 
-**Endpoints for sign-up, sign-in, logout are permitted to everybody, others require authentication**
+Endpoints for sign-up, sign-in, logout are permitted to everybody, others require authentication
 
 Endpoints Permissions: Sign-up, Sign-in, and Logout: Permitted for all users.
 Other endpoints require authentication.
 
-**Read: User, Editor, Admin
+*Read: User, Editor, Admin
 Write: Editor, Admin
-Delete: Admin**
+Delete: Admin*
 **Use the Following Already Registered Users:**
 
-**ADMIN: username: smida-admin, password: admin**
+***ADMIN: username: smida-admin, password: admin***
 
-**EDITOR: username: smida-editor, password: editor**
+***EDITOR: username: smida-editor, password: editor***
 
-*USER: username: smida-user, password: user**
+***USER: username: smida-user, password: user***
 
 <details lang="java">
 <summary>How to start:</summary>
