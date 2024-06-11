@@ -7,41 +7,41 @@
 ![image](https://github.com/marchuk-engineer/smida-techtask/assets/112648286/dfc979c3-25ac-404f-853b-c2a2b94e819d)
 
 
-***Project is environment secured, INSERT YOUR VALUES INTO .env file. File lays in project folder***
+***Проект використовує environment змінні! ДОДАЙТЕ ВАШІ ЗНАЧЕННЯ В ФАЙЛ .env Файл розташований у папці проекту***
 
-Endpoints for sign-up, sign-in, logout are permitted to everybody, others require authentication
+Ендпоінти для реєстрації, входу та виходу дозволені для всіх, інші потребують аутентифікації
 
-Endpoints Permissions: Sign-up, Sign-in, and Logout: Permitted for all users.
-Other endpoints require authentication.
+Реєстрація, Вхід та Вихід: Дозволені для всіх користувачів.
+Інші ендпоінти вимагають аутентифікації.
 
 *Read: User, Editor, Admin
 Write: Editor, Admin
 Delete: Admin*
 
-**Use the Following Already Registered Users:**
+**Використовуйте наступних вже зареєстрованих користувачів:**
 
-***ADMIN: username: smida-admin, password: admin***
+***АДМІНІСТРАТОР: ім'я користувача: smida-admin, пароль: admin***
 
-***EDITOR: username: smida-editor, password: editor***
+***РЕДАКТОР: ім'я користувача: smida-editor, пароль: editor***
 
-***USER: username: smida-user, password: user***
-
-<details lang="java">
-<summary>How to start:</summary>
+***КОРИСТУВАЧ: ім'я користувача: smida-user, пароль: user***
 
 <details lang="java">
-<summary>In Intellij Idea:</summary>
+<summary>Як почати:</summary>
+
+<details lang="java">
+<summary>В Intellij Idea:</summary>
 
 
 
 
-1. Clone project.
-2. Run test
-(Integration tests are present, but unfortunately, they lack an embedded datasource. Integrating two datasources (SQL and NoSQL) in a single service poses a challenge)
+1. Клонуйте проект.
+2. Запустіть тест
+(Інтеграційні тести є, але, на жаль, вони не мають вбудованого джерела даних. Інтеграція двох джерел даних (SQL та NoSQL) в рамках одного сервісу становить виклик)
 ```
 mvn test
 ```
-3. Start server
+3. Запустіть сервер
 ```
 mvn clean install -Dmaven.test.skip=true
 ```
@@ -51,7 +51,7 @@ mvn clean install -Dmaven.test.skip=true
 <details lang="java">
 <summary>Docker:</summary>
 
-Clone project and run compose.yaml
+Клонуйте проект та запустіть compose.yaml
 ```
 docker.exe compose -f compose.yaml  up 
 ```
@@ -59,73 +59,70 @@ docker.exe compose -f compose.yaml  up
 </details>
 
 <details lang="java">
-<summary>Task description:</summary>
-**Database Structure:**
-Use PostgreSQL to store basic information about companies and their reports.
-Use MongoDB to store detailed information about reports (e.g., detailed financial metrics).
+<summary>Опис завдання:</summary>
 
-**Entities:**
-Company:
-id (UUID)
-name (String)
-registration_number (String)
-address (String)
-created_at (Timestamp)
-Report:
+1. Створення структури бази даних:
+	Використовувати PostgreSQL для зберігання основної інформації про компанії та їх звіти.
+	Використовувати MongoDB для зберігання детальної інформації про звіти (наприклад, детальні фінансові показники).
 
-id (UUID)
-company_id (UUID, foreign key to Company)
-report_date (Timestamp)
-total_revenue (Decimal)
-net_profit (Decimal)
-Report Details (stored in MongoDB):
+2. Сутності:
+	Компанія (Company):
+		id (UUID)
+		name (String)
+		registration_number (String)
+		address (String)
+		created_at (Timestamp)
+	Звіт (Report):
+		id (UUID)
+		company_id (UUID, зовнішній ключ на компанію)
+		report_date (Timestamp)
+		total_revenue (Decimal)
+		net_profit (Decimal)
+	Деталі звіту (ReportDetails) у MongoDB:
+		report_id (UUID, зовнішній ключ на звіт)
+		financial_data (JSON)
+		comments (String)
+	
+3. Вимоги до функціональності:
+	Реалізувати CRUD операції для компаній та їх звітів.
+	Реалізувати ендпоінт для отримання всіх звітів конкретної компанії.
+	Реалізувати ендпоінт для отримання детальної інформації про звіт.
+	Забезпечити міграції бази даних за допомогою Liquibase.
+	Запакувати сервіс у Docker-контейнер для легкого розгортання.
+	Реалізувати аутентифікацію та авторизацію за допомогою Spring Security.
 
-report_id (UUID, foreign key to Report)
-financial_data (JSON)
-comments (String)
+4. Технології:
+	Java 8 -11
+	Spring 
+	Spring Data JPA
+	Hibernate
+	Spring Data MongoDB
+	Liquibase
+	Spring Security
+	Docker
+	PostgreSQL
+	MongoDB
 
-**Functional Requirements:**
+5. Технічні деталі:
+	Проект повинен бути виконаний у вигляді Maven проекту.
+	Написати базові unit та integration тести для основних операцій.
+	Використовувати Spring MVC для створення RESTful веб-сервісів.
+	Конфігурації бази даних повинні бути винесені в application.properties або application.yml.
+	Забезпечити Dockerfile для створення Docker-образу.
+	Забезпечити docker-compose.yml для розгортання сервісу з усіма залежностями.
+	Код повинен бути розміщений у публічному репозиторії на GitHub або GitLab з інструкцією по запуску.
 
-Implement CRUD operations for companies and their reports.
-Implement an endpoint to retrieve all reports of a specific company.
-Implement an endpoint to retrieve detailed information about a report.
-Provide database migrations using Liquibase.
-Package the service into a Docker container for easy deployment.
-Implement authentication and authorization using Spring Security.
+6. Критерії оцінки:
+	Коректність реалізації CRUD операцій.
+	Використання відповідних аннотацій та патернів Spring MVC.
+	Якість та структура коду.
+	Покриття коду тестами.
+	Коректна робота міграцій Liquibase.
+	Правильність конфігурації Dockerfile та docker-compose.yml.
+	Реалізація аутентифікації та авторизації за допомогою Spring Security.
+	Документація та коментарі у коді.
 
-**Technologies:**
-Java 8-11
-Spring
-Spring Data JPA
-Hibernate
-Spring Data MongoDB
-Liquibase
-Spring Security
-Docker
-PostgreSQL
-MongoDB
-
-**Technical Details:**
-
-The project should be a Maven project.
-Write basic unit and integration tests for core operations.
-Use Spring MVC to create RESTful web services.
-Database configurations should be externalized in application.properties or application.yml.
-Provide a Dockerfile to create a Docker image.
-Provide a docker-compose.yml for deploying the service with all dependencies.
-Code should be hosted in a public repository on GitHub or GitLab with instructions for running.
-
-**Evaluation Criteria:**
-
-Correct implementation of CRUD operations.
-Use of appropriate Spring MVC annotations and patterns.
-Code quality and structure.
-Code coverage with tests.
-Proper functioning of Liquibase migrations.
-Correct configuration of Dockerfile and docker-compose.yml.
-Implementation of authentication and authorization using Spring Security.
-Documentation and comments in the code.
-Deadline: 5 days.
+**Термин виконання 5 днів.**
 
 </details>
 
