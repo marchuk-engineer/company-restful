@@ -10,19 +10,20 @@
 **Project is environment secured, INSERT YOUR VALUES INTO .env file**
 
 **Endpoints for sign-up, sign-in, logout are permitted to everybody, others require authentication**
-Endpoints Permissions
 
-Sign-up, Sign-in, and Logout: Permitted for all users.
+Endpoints Permissions: Sign-up, Sign-in, and Logout: Permitted for all users.
 Other endpoints require authentication.
-Authorization Levels:
 
-Read: User, Editor, Admin
+**Read: User, Editor, Admin
 Write: Editor, Admin
-Delete: Admin
-Use the Following Already Registered Users:
+Delete: Admin**
+**Use the Following Already Registered Users:**
 
 **ADMIN: username: smida-admin, password: admin**
+
 **EDITOR: username: smida-editor, password: editor**
+
+*USER: username: smida-user, password: user**
 
 <details lang="java">
 <summary>How to start:</summary>
@@ -31,7 +32,6 @@ Use the Following Already Registered Users:
 <summary>In Intellij Idea:</summary>
 
 
-**USER: username: smida-user, password: user**
 
 
 1. Clone project.
