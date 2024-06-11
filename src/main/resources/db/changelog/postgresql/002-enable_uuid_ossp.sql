@@ -1,1 +1,2 @@
+-- changeset misha:17932552134718-10
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";

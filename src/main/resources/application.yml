@@ -4,6 +4,7 @@ spring:
   #-------------------------
   liquibase:
     #    contexts: postgresql, mongodb
+    liquibase-schema: smida_schema
     change-log: classpath:db/changelog/changelog-master.yaml
 
   #-------------------------

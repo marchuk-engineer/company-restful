@@ -5,12 +5,12 @@ spring:
   liquibase:
     #    contexts: postgresql, mongodb
     change-log: classpath:db/changelog/changelog-master.yaml
-
+    liquibase-schema: smida_schema
   #-------------------------
   # Database configuration PostgreSQL
   #-------------------------
   datasource:
-    url: jdbc:postgresql://postgres:5432/smida
+    url: jdbc:postgresql://postgres:5432/smida?currentSchema="smida_schema"
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
     driverClassName: org.postgresql.Driver

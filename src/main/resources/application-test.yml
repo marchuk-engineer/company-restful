@@ -4,13 +4,13 @@ spring:
     driver-class-name: org.h2.Driver
     username: h2
     password: h2
-  #    hikari:
-  #      schema: smida_schema
+    hikari:
+      schema: smida_schema
   jpa:
     database-platform: hibernate.dialect.H2Dialect
   data:
     mongodb:
       uri: mongodb://localhost:27017/testdb
-#  liquibase:
-#    default-schema: smida_schema
-#    change-log: classpath:db/changelog/changelog-master.yaml
+  liquibase:
+    default-schema: smida_schema
+    change-log: classpath:db/changelog/changelog-master.yaml

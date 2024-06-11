@@ -6,9 +6,13 @@ services:
     environment:
       MONGO_INITDB_DATABASE: smida
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
-      MONGO_INITDB_ROOT_USERNAME: ${POSTGRES_USERNAME}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
     ports:
       - "27017:27017"
+    command: >
+      bash -c "
+      mongod --auth --bind_ip_all
+      "
   postgres:
     image: 'postgres:latest'
     env_file:
@@ -18,7 +22,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USERNAME}
       POSTGRES_DB: smida
     volumes:
-      - ./src/main/resources/db/changelog/postgresql/:/docker-entrypoint-initdb.d
+      - ./src/main/resources/db/changelog/postgresql:/docker-entrypoint-initdb.d
     ports:
       - '5432:5432'
   smida-service:
