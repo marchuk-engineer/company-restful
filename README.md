@@ -14,6 +14,7 @@
 
 1. Clone project.
 2. Run test
+(Integration tests are present, but unfortunately, they lack an embedded datasource. Integrating two datasources (SQL and NoSQL) in a single service poses a challenge)
 ```
 mvn test
 ```
