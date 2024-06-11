@@ -4,13 +4,8 @@
 
 **Test coverage:**
 
-![image](https://github.com/marchuk-engineer/smida-techtask/assets/112648286/17d52222-59bf-4dc5-ba1c-6c547403f016)
+![image](https://github.com/marchuk-engineer/smida-techtask/assets/112648286/dfc979c3-25ac-404f-853b-c2a2b94e819d)
 
-<details lang="java">
-<summary>How to start:</summary>
-
-<details lang="java">
-<summary>In Intellij Idea:</summary>
 
 **Project is environment secured, INSERT YOUR VALUES INTO .env file**
 
@@ -28,6 +23,14 @@ Use the Following Already Registered Users:
 
 **ADMIN: username: smida-admin, password: admin**
 **EDITOR: username: smida-editor, password: editor**
+
+<details lang="java">
+<summary>How to start:</summary>
+
+<details lang="java">
+<summary>In Intellij Idea:</summary>
+
+
 **USER: username: smida-user, password: user**
 
 
